@@ -2,7 +2,7 @@ import "dotenv/config";
 import { Bot, GrammyError, HttpError } from "grammy";
 import { createDb, TaskRepository } from "./db";
 import { formatTaskList, formatHelp } from "./format";
-import { AlertService } from "./alerts";
+
 
 const TOKEN = process.env.BOT_TOKEN;
 if (!TOKEN) throw new Error("BOT_TOKEN is not set in .env");
@@ -10,7 +10,7 @@ if (!TOKEN) throw new Error("BOT_TOKEN is not set in .env");
 const bot = new Bot(TOKEN);
 const db = createDb();
 const repo = new TaskRepository(db);
-const alerts = new AlertService(bot);
+
 
 // ── /start & /help ────────────────────────────────────────────────────────────
 bot.command(["start", "help"], (ctx) =>
@@ -57,18 +57,6 @@ bot.command("clear", (ctx) => {
 });
 
 // ── /alerts ───────────────────────────────────────────────────────────────────
-bot.command("alerts", (ctx) => {
-  const sub = ctx.match.trim().toLowerCase();
-  const userId = ctx.from!.id;
-
-  if (sub === "on") {
-    const added = alerts.subscribe(userId);
-    if (!added) return ctx.reply("🔔 Алерты уже включены\\! Жду движений ≥10% за 1ч по топ\\-10 монетам\\.", { parse_mode: "MarkdownV2" });
-    return ctx.reply(
-      "🔔 *Алерты включены\\!*\n\nБуду присылать уведомление когда любая монета из топ\\-10 изменится на 10% и больше за последний час\\.\n\nПроверка каждые 15 минут\\.",
-      { parse_mode: "MarkdownV2" }
-    );
-  }
 
   if (sub === "off") {
     const removed = alerts.unsubscribe(userId);

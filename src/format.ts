@@ -42,13 +42,7 @@ export function formatHelp(): string {
     "🗑 `/delete <id>` — удалить задачу",
     "🧹 `/clear` — удалить все выполненные",
     "",
-    "📈 *Крипто алерты:*",
-    "🔔 `/alerts on` — включить уведомления",
-    "🔕 `/alerts off` — выключить",
-    "📊 `/alerts status` — статус",
-    "",
-    "_Алерты срабатывают при изменении цены топ\\-10 монет на 10%\\+ за 1 час_",
-  ].join("\n");
+ 
 }
 
 function escapeMarkdown(text: string): string {
